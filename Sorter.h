@@ -5,8 +5,10 @@
 *
 *
 ******/
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #ifndef SORTER_H
 #define SORTER_H
