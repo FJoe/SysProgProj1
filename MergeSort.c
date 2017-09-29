@@ -16,7 +16,9 @@
 void merge(int * array, int left, int mid, int right)
 {
 	int tempLeftArraySize = mid - left;
-	int tempRightArraySize = right - mid + 1;
+	int tempRightArraySize = right - mid;
+
+	//printf("%d, %d\n", tempLeftArraySize, tempRightArraySize);
 
 	//create temporary arrays, since we do not know how big these arrays will be, put them into heap to avoid stackoverflow
 	int * tempLeftArray = (int *)malloc(tempLeftArraySize * sizeof(int));
@@ -30,11 +32,27 @@ void merge(int * array, int left, int mid, int right)
 		tempLeftArray[i] = array[left + i];
 	}
 	
+	/*
+	for(i = 0; i < tempLeftArraySize; i++){
+		printf("Left %d\n", tempLeftArray[i]);
+	
+	}
+	*/
+	
+	
 	//copy items into right array
+	
 	for(j = 0; j < tempRightArraySize; j++)
 	{
-		tempRightArray[j] = array[mid + 1 + j];
+		tempRightArray[j] = array[mid + j];
 	}
+	
+	/*
+	for(j = 0; j < tempRightArraySize; j++){
+		printf("Right %d\n", tempRightArray[j]);
+	
+	}
+	*/	
 
 	//i is index of leftArray, j is index of rightArray, k is index of original array
 	i = 0;
@@ -75,37 +93,58 @@ void merge(int * array, int left, int mid, int right)
 	free(tempRightArray);
 }
 
-void mergeSort(int * array, int left, int right)
+void mergeSort(int array[], int left, int right)
 {
 	int mid;
 
 	//if true, there is more than one element in the array
 	if(left < right)
-	{
-		mid = (left + right) / 2;
+	{		
+		int arraySize =  sizeof(array)/sizeof(int);
+		int ptrsize = sizeof(array);
+		mid = (left + right) / 2;	
 		mergeSort(array, left, mid);
+
+		int i;
+
+
+		printf("Arraysize %d ptrsize %d\n", arraySize, ptrsize);
+
+		/*
+		for(i = 0; i < arraySize; i++){
+			printf("mergeSort: %d", array[i]);
+		}
+		printf("\n");
+		*/
+		
 		mergeSort(array, mid + 1, right);
+
+		/*
+		for(i = 0; i < arraySize; i++){
+			printf("mergeSort: %d", array[i]);
+		}
+
+		printf("\n");
+		*/
+		
+		printf("MID: %d\n", mid);
 		merge(array, left, mid, right);
 	}
-	else 
-	{
-		return;
-	}
 }
-
+ 
 
 
 int main(int argc, char* argv[]){
 	//test
 
-	int array[] = {2, 1, 4, 3};
-
+	int array[] = {2, 1, 6, 8, 1 ,4 };
 	int arraySize = sizeof(array)/sizeof(int);
 
 	printf("array size: %d \n", arraySize);
 
-	mergeSort(array, 0, arraySize - 1);
-
+	mergeSort(array, 0, (arraySize - 1));
+	//merge(array, 0, arraySize/2, arraySize);
+	
 	int i;
 
 	for(i = 0; i < arraySize; i++)
