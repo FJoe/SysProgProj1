@@ -122,7 +122,10 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-
+	//Creating list of DataRow
+	DataRow** list = (DataRow**) malloc(sizeof(DataRow*) * 10000);
+	char dataType = getDataType(colToSort);
+	int curRowNum = 0;
 	
 	char* origRow = (char*) calloc(1024, sizeof(char));
 
@@ -130,12 +133,13 @@ int main(int argc, char* argv[])
 	//Goes through each row in csv file
 	while(fgets(origRow, sizeof(char) * 1024, stdin) != NULL){
 		//New dataRow for array
-		DataRow* newDataRow = (DataRow*) calloc(1, sizeof(DataRow));
+		DataRow* newDataRow = (DataRow*) malloc(sizeof(DataRow));
+		newDataRow->dataType = dataType;
 
 		//newRow is data for new row with trimmed spaces
-		//curRow is copy of orig csv file row
 		char* newRow = (char*) calloc(1024, sizeof(char));
 
+		//Goes through each word, trimming spaces and finding data to sort by
 		char* curWord = strtok(origRow, delim);
 		int firstWord = 1;
 		int i = 0;
@@ -147,12 +151,18 @@ int main(int argc, char* argv[])
 
 			char* trimWord = trimSpace(curWord);
 
-			//DO LATER
-			/**
 			if(i == colNumToSort){
-				newDataRow->
+				DataCompare* newDataCompare = (DataCompare*) malloc(sizeof(DataCompare));
+				if(dataType == 'n'){
+					newDataCompare->numData = atof(trimWord);
+				}
+				else if(dataType == 's'){
+					newDataCompare->stringData = trimWord;
+				}
+
+				newDataRow->dataCompare = newDataCompare;
 			}
-			**/
+			
 
 			strcat(newRow, trimWord);
 			curWord = strtok(NULL, delim);
@@ -160,12 +170,29 @@ int main(int argc, char* argv[])
 			i++;
 		}
 		newDataRow->data = newRow;
-		printf("%s", newRow);
-		//free(newRow);
+		list[curRowNum] = newDataRow;
+		if(curRowNum > 0)	
+			printf("%s\n", list[curRowNum-1]->dataCompare->stringData);
+		curRowNum++;
 	}
-	
+
+	//Sort list
+	int j;	
+	for(j = 0; j < curRowNum; j++)
+	{
+		//printf("%s\n", list[j]->dataCompare->stringData);
+		if(dataType == 'n')
+			;//printf("%f\n", list[j]->dataCompare->numData);
+		else if(dataType == 's')
+			printf("%s\n", list[j]->dataCompare->stringData);
+
+		free(list[j]->dataCompare);
+		free(list[j]->data);
+		free(list[j]);
+	}
 	free(row1);
 	free(origRow);
+	free(list);
 	return 0;
 }
 
