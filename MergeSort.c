@@ -36,33 +36,33 @@ void merge(DataRow ** array, int left, int mid, int right)
 	i = 0;
 	j = 0;
 	int k = left;
-
-	if(dataType == 'n'){
-		//comparison, compares left array with right array and the smaller value is put into original array
-		while(i < tempLeftArraySize && j < tempRightArraySize)
-		{
-			if(tempLeftArray[i]->dataCompare->numData <= tempRightArray[j]->dataCompare->numData)
-			{
-				array[k] = tempLeftArray[i];
-				i++;
-			}
-			else
-			{
-				array[k] = tempRightArray[j];
-				j++;
-			}
-
-			k++;
+	//comparison, compares left array with right array and the smaller value is put into original array
+	while(i < tempLeftArraySize && j < tempRightArraySize)
+	{
+		double comparison;
+		if(dataType == 'n')
+			comparison = tempLeftArray[i]->dataCompare->numData - tempRightArray[j]->dataCompare->numData;
+		else if(dataType == 's')
+			comparison = strcmp(tempLeftArray[i]->dataCompare->stringData, tempRightArray[j]->dataCompare->stringData);
+			
+		if(comparison < 0){
+			array[k] = tempLeftArray[i];
+			i++;
 		}
+		else{
+			array[k] = tempRightArray[j];
+			j++;
+		}
+		k++;
 	}
     	
 	//copy remaining elements in left array back into the original array
-	for(i; i < tempLeftArraySize; i++, k++){
+	for(; i < tempLeftArraySize; i++, k++){
 	    array[k] = tempLeftArray[i];
 	}
 
     	//copy remaining elements in right array back into the original array
-    	for(j; j < tempRightArraySize; j++, k++){
+    	for(; j < tempRightArraySize; j++, k++){
 	    array[k] = tempRightArray[j];
 	}
     
@@ -115,9 +115,9 @@ int main(int argc, char* argv[]){
 	////////
 
 	char * s1 = (char *) malloc(3 * sizeof(char));
-	s[0] = 't';
-	s[1] = 'i';
-	s[2] = '\0';
+	s1[0] = 't';
+	s1[1] = 'i';
+	s1[2] = '\0';
 	
 	DataRow* dataRow2 = (DataRow*) malloc(sizeof(DataRow));
 	dataRow2->dataType = 'n';
