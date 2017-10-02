@@ -76,7 +76,6 @@ char getDataType(char* data){
 	else if(strcmp(data, "movie_facebook_likes") == 0)
 		return 'n';
 
-
 	return 'e';
 		
 }
@@ -128,7 +127,6 @@ int main(int argc, char* argv[])
 	int curRowNum = 0;
 	
 	char* origRow = (char*) calloc(1024, sizeof(char));
-
 	
 	//Goes through each row in csv file
 	while(fgets(origRow, sizeof(char) * 1024, stdin) != NULL){
@@ -136,11 +134,13 @@ int main(int argc, char* argv[])
 		DataRow* newDataRow = (DataRow*) malloc(sizeof(DataRow));
 		newDataRow->dataType = dataType;
 
+		char* rowDelim = strdup(origRow);
+
 		//newRow is data for new row with trimmed spaces
 		char* newRow = (char*) calloc(1024, sizeof(char));
 
 		//Goes through each word, trimming spaces and finding data to sort by
-		char* curWord = strtok(origRow, delim);
+		char* curWord = strsep(&rowDelim, delim);
 		int firstWord = 1;
 		int i = 0;
 		while(curWord != NULL){
@@ -162,29 +162,27 @@ int main(int argc, char* argv[])
 
 				newDataRow->dataCompare = newDataCompare;
 			}
-			
 
 			strcat(newRow, trimWord);
-			curWord = strtok(NULL, delim);
+			curWord = strsep(&rowDelim, delim);
 
 			i++;
 		}
 		newDataRow->data = newRow;
 		list[curRowNum] = newDataRow;
-		if(curRowNum > 0)	
-			printf("%s\n", list[curRowNum-1]->dataCompare->stringData);
 		curRowNum++;
 	}
 
 	//Sort list
+	/**
+		ENTER SORTING HERE
+	**/
+
+	//Prints list then frees it
 	int j;	
 	for(j = 0; j < curRowNum; j++)
 	{
-		//printf("%s\n", list[j]->dataCompare->stringData);
-		if(dataType == 'n')
-			;//printf("%f\n", list[j]->dataCompare->numData);
-		else if(dataType == 's')
-			printf("%s\n", list[j]->dataCompare->stringData);
+		printf("%s\n", list[j]->data);
 
 		free(list[j]->dataCompare);
 		free(list[j]->data);
@@ -193,6 +191,7 @@ int main(int argc, char* argv[])
 	free(row1);
 	free(origRow);
 	free(list);
+
 	return 0;
 }
 
