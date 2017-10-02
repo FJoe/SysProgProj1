@@ -96,24 +96,22 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	//Create copy of column heading to print
-	char* row1 = (char*) calloc(1024, sizeof(char));
-	if(fgets(row1, sizeof(char) * 1024, stdin) == NULL){
+	//Get column heading and create copy of it
+	char* header = (char*) calloc(1024, sizeof(char));
+	if(fgets(header, sizeof(char) * 1024, stdin) == NULL){
 		printf("ERROR: file empty");
 		return -1;
 	}
-
-	//Print column headers to output file
-	printf("%s", row1);
+	char* row1 = strdup(header);
 
 	//If column to search for is found, get column number
 	char* colToSort = argv[2];
 	int colNumToSort = 0;
 	const char delim[2] = ",";
-	char* curHead = strtok(row1, delim);
+	char* curHead = strsep(&row1, delim);
 
 	while( curHead != NULL && strcmp(colToSort, curHead) != 0){
-		curHead = strtok(NULL, delim);
+		curHead = strsep(&row1, delim);
 		colNumToSort++;
 	}
 	if(curHead == NULL){
@@ -121,8 +119,11 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
+	//Print column headers to output file
+	printf("%s", header);
+
 	//Creating list of DataRow
-	DataRow** list = (DataRow**) malloc(sizeof(DataRow*) * 10000);
+	DataRow** list = (DataRow**) malloc(sizeof(DataRow*) * 20000);
 	char dataType = getDataType(colToSort);
 	int curRowNum = 0;
 	
@@ -139,7 +140,7 @@ int main(int argc, char* argv[])
 		//newRow is data for new row with trimmed spaces
 		char* newRow = (char*) calloc(1024, sizeof(char));
 
-		//Goes through each word, trimming spaces and finding data to sort by
+		//Goes through each word, trimming spaces and finding data to sort by and add data to array
 		char* curWord = strsep(&rowDelim, delim);
 		int firstWord = 1;
 		int i = 0;
@@ -188,7 +189,7 @@ int main(int argc, char* argv[])
 		free(list[j]->data);
 		free(list[j]);
 	}
-	free(row1);
+	free(header);
 	free(origRow);
 	free(list);
 

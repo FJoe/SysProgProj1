@@ -30,8 +30,8 @@ struct data_row{
 		s = stringData
 **/
 	char dataType;
-	DataCompare* dataCompare;	
 	char* data;
+	DataCompare* dataCompare;	
 };
 typedef struct data_row DataRow;
 
