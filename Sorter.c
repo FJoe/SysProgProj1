@@ -109,8 +109,7 @@ int main(int argc, char* argv[])
 	int colNumToSort = 0;
 	const char delim[2] = ",";
 	char* curHead = strsep(&row1, delim);
-
-	while( curHead != NULL && strcmp(colToSort, curHead) != 0){
+	while( curHead != NULL && strcmp(colToSort, trimSpace(curHead)) != 0){
 		curHead = strsep(&row1, delim);
 		colNumToSort++;
 	}
