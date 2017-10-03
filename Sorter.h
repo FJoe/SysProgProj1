@@ -42,6 +42,8 @@ char* trimSpace(char* str);
 char getDataType(char* data);
 
 //Suggestion: prototype a mergesort function
+void merge(DataRow ** array, int left, int mid, int right);
+void mergeSort(DataRow ** array, int left, int right);
 
 
 

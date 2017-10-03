@@ -1,4 +1,5 @@
 #include "Sorter.h"
+#include "MergeSort.c"
 
 char* trimSpace(char* str){
 	int end = strlen(str) - 1;
@@ -149,7 +150,20 @@ int main(int argc, char* argv[])
 			else
 				strcat(newRow, ",");
 
-			char* trimWord = trimSpace(curWord);
+			char* newWord = (char*) calloc(1024, sizeof(char));
+			newWord = strdup(curWord);
+			if(newWord[0] == '"')
+			{
+				while(curWord[strlen(curWord) - 1] != '"')
+				{
+					curWord = strsep(&rowDelim, delim);
+					strcat(newWord, ",");
+					//strcat(newWord, curWord);	
+				}
+				newWord[strlen(newWord)] = '"';
+				newWord[strlen(newWord)] = '\0';
+			}
+			char* trimWord = trimSpace(newWord);
 
 			if(i == colNumToSort){
 				DataCompare* newDataCompare = (DataCompare*) malloc(sizeof(DataCompare));
@@ -174,10 +188,6 @@ int main(int argc, char* argv[])
 	}
 
 	//Sort list
-	/**
-		ENTER SORTING HERE
-	**/
-
 	mergeSort(list, 0, (curRowNum -1));
 
 	//Prints list then frees it
