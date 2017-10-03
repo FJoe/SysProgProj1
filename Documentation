@@ -1,0 +1,22 @@
+Design:
+
+We created 2 structs for this program, DataRow and DataCompare.
+
+union DataCompare represented the data the user wanted to sort by. Chose to use union as we can change the datatype between the two without using extra space
+There are 2 fields in DataCompare:
+	double numData - numeric data, used double as it can encompass the largest amount of data
+	char * stringData - string data, used to store strings for comparison
+
+struct DataRow represented each row inside the csv. 
+There are 3 fields in DataRow:
+	char DataType - represented the type of data that we needed to compare. 'n' represented numeric data types and 's' represented string data types
+	char * Data - pointer to the string that held all data. E.G. "firstname, lastname, age, birthdate"
+	DataCompare * dataCompare -  pointed to a struct of DataCompare that told us which field we were comparing. 
+
+How the DataRow would be represented: {DataType = 'n', Data = "Peter, Jeng, 20, 08/15/1997", dataCompare->numData = 20} 
+
+By using the struct DataRow and union DataCompare, we are able to have information regarding how we needed to process the data as well as the exact data that we needed to use to compare.
+
+Inside Sorter.c, we used a double linked list called DataRow ** List. This allowed us to 
+
+
