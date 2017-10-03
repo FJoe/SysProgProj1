@@ -91,7 +91,7 @@ void mergeSort(DataRow ** array, int left, int right)
 }
  
 
-
+/*
 int main(int argc, char* argv[]){
 	DataRow** list = (DataRow**) malloc(sizeof(DataRow*) * 2);
 
@@ -161,4 +161,4 @@ int main(int argc, char* argv[]){
 
 	return 0;
 }
-
+*/
