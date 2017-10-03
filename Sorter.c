@@ -109,6 +109,7 @@ int main(int argc, char* argv[])
 	char* colToSort = argv[2];
 	int colNumToSort = 0;
 	const char delim[2] = ",";
+	const char otherDelim[2] = "\"";
 	char* curHead = strsep(&row1, delim);
 	while( curHead != NULL && strcmp(colToSort, trimSpace(curHead)) != 0){
 		curHead = strsep(&row1, delim);
@@ -150,20 +151,14 @@ int main(int argc, char* argv[])
 			else
 				strcat(newRow, ",");
 
-			char* newWord = (char*) calloc(1024, sizeof(char));
-			newWord = strdup(curWord);
-			if(newWord[0] == '"')
+			if(curWord[0] == '"' && curWord[strlen(curWord) - 1] != '"')
 			{
-				while(curWord[strlen(curWord) - 1] != '"')
-				{
-					curWord = strsep(&rowDelim, delim);
-					strcat(newWord, ",");
-					//strcat(newWord, curWord);	
-				}
-				newWord[strlen(newWord)] = '"';
-				newWord[strlen(newWord)] = '\0';
+				char* otherHalf = strsep(&rowDelim, otherDelim);
+				strcat(curWord, ",");
+				strcat(curWord, otherHalf);
+				strcat(curWord, "\"");	
 			}
-			char* trimWord = trimSpace(newWord);
+			char* trimWord = trimSpace(curWord);
 
 			if(i == colNumToSort){
 				DataCompare* newDataCompare = (DataCompare*) malloc(sizeof(DataCompare));
