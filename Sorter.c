@@ -42,6 +42,8 @@ char getDataType(char* data){
 		return 's';
 	else if(strcmp(data, "content_rating") == 0)
 		return 's';
+	else if(strcmp(data, "first_name") == 0)
+		return 's';
 
 	if(strcmp(data, "num_critic_for_reviews") == 0)
 		return 'n';
@@ -74,6 +76,8 @@ char getDataType(char* data){
 	else if(strcmp(data, "aspect_ratio") == 0)
 		return 'n';
 	else if(strcmp(data, "movie_facebook_likes") == 0)
+		return 'n';
+	else if(strcmp(data, "age") == 0)
 		return 'n';
 
 	return 'e';
@@ -177,6 +181,8 @@ int main(int argc, char* argv[])
 	/**
 		ENTER SORTING HERE
 	**/
+
+	mergeSort(list, 0, (curRowNum -1));
 
 	//Prints list then frees it
 	int j;	
