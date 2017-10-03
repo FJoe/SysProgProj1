@@ -51,7 +51,9 @@ We broke the testing into multiple pieces to ensure each part worked independent
 4) Joined each step together until we could sort test.csv (a small file we wrote containing test data)
 5) Used ./sorter on movie_metadata.csv to ensure sorting could be done on large datasets.
 
-
+HOW TO USE OUR CODE:
+1) Run make all on the terminal
+2) Type: cat movie_metadata.csv | ./sorter -c <column to sort> > sortedmovies.csv
 
 
 
