@@ -13,10 +13,31 @@ There are 3 fields in DataRow:
 	char * Data - pointer to the string that held all data. E.G. "firstname, lastname, age, birthdate"
 	DataCompare * dataCompare -  pointed to a struct of DataCompare that told us which field we were comparing. 
 
-How the DataRow would be represented: {DataType = 'n', Data = "Peter, Jeng, 20, 08/15/1997", dataCompare->numData = 20} 
+How the DataRow would be represented: 
+{DataType = 'n', Data = "Peter, Jeng, 20, 08/15/1997", dataCompare->numData = 20}. Data follows the order: "firstname, lastname, age, birthdate"
 
 By using the struct DataRow and union DataCompare, we are able to have information regarding how we needed to process the data as well as the exact data that we needed to use to compare.
 
-Inside Sorter.c, we used a double linked list called DataRow ** List. This allowed us to 
+Inside Sorter.c, we used a double pointer array called DataRow ** List. This list is what is being sent into mergeSort and each index is a DataRow.
+By passing the array of struct into MergeSort, we can sort in a generic manner without having to change the parameters of the function (Ex. sort between string and numbers).
+
+Inside the MergeSort, we first recursively call upon mergeSort to split the arrays into subarrays as is done in the algorithm. Once the arrays are split to its atomic length of 1, we merge these arrays back together. By calling merge(), we are putting the subarrays back into the original arrays while doing comparisons(sorting) in the subarrays. At the end of the recursive call, the original array will be merged and sorted.
+
+Inside Sorter.c, we are also doing checks on the user input to ensure the program functions correctly.
+The tests are:
+	1) Check to see if we have the correct number of arguments
+	2) Check to see if we are sorting by column '-c'
+	3) Check to see if we are given a file to sort or if it exists
+	4) Check to see if the given column exists in the movie_metadata.csv file
+
+Afterwards, we implement a trimSpace function that removes leading and trailing spaces. This will ensure data integrity during sorting.
+
+At the end of the program, we free up all pointers to ensure no memory leaks occur.
+
+
+
+
+
+
 
 
