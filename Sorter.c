@@ -3,7 +3,7 @@
 
 char* trimSpace(char* str){
 	int end = strlen(str) - 1;
-	while(str[end] == ' ' || str[end] == '\n')
+	while(str[end] == ' ' || str[end] == '\n' || str[end] == '\r')
 	{
 		str[end] = '\0';
 		end--;
@@ -13,6 +13,9 @@ char* trimSpace(char* str){
 	{
 		str++;
 	}
+
+
+
 	return str;
 }
 
